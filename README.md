@@ -75,7 +75,11 @@ It helps users **apply for jobs automatically** by generating personalized, prof
 
 6. **Visit**
    ```bash
-   http://localhost:3000
+   http://localhost:3000 (Frontend)
+   
+   http://localhost:8000 (Backend)
+   
+   http://localhost:8000/docs
    ```
 
 <hr>
