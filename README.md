@@ -61,12 +61,13 @@ It helps users **apply for jobs automatically** by generating personalized, prof
 
 5. **Run the app**
 
-- *Backend*
+**Backend**
    ```bash
    cd ../backend
    uvicorn main:app --reload
-      ```
-- *Frontend*
+   ```
+
+**Frontend**
    ```bash
     cd frontend
     npm run dev
