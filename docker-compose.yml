@@ -1,0 +1,36 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MONGO_URL=mongodb://mongo:27017
+    depends_on:
+      - mongo
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"
+    # ❌ REMOVE volumes for frontend (very important on Windows + Next.js)
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NEXT_DISABLE_LIGHTNINGCSS=1
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
