@@ -1,124 +1,375 @@
 # AI Email Sender
 
-An **AI-powered email automation tool** built with **Next.js** (frontend) and **FastAPI** (backend).  
-It helps users **apply for jobs automatically** by generating personalized, professional emails — with plans to add deeper customization soon.
-
-<hr>
+An **AI-powered job application assistant** that automatically generates and sends professional emails to potential employers. Just input the job details, and let AI handle the rest!
 
 
 
-## 🚀 Features
+## 🎯 What Does This Do?
 
-- 🤖 **AI Email Generation** – Auto-create subject & body based on job details  
-- ✉️ **Send Emails Instantly** – Integrated email sending via backend  
-- 🔐 **JWT Authentication** – Secure user login and token-based auth  
-- 🌐 **Next.js Frontend** – Fast, responsive UI with modern design  
-- ⚡ **FastAPI Backend** – Lightweight, efficient API server  
-- 🗄️ **MongoDB Integration** – Store user and email data (optional)  
-- 🧩 **Future Plans** – Add job-specific personalization and templates  
+Think of this as your personal email assistant for job hunting:
+1. **You provide:** Company name, job title, your details
+2. **AI creates:** Professional email with subject line and body
+3. **System sends:** Email directly to the recruiter
+4. **You benefit:** The system handles repetitive email writing, reducing manual effort
 
-<hr>
+---
 
+## 🚀 Core Features
 
-## 🛠️ Tech Stack
+- 🤖 **Smart Email Writing** – AI crafts personalized emails based on job context
+- ✉️ **One-Click Sending** – Emails go out instantly through secure SMTP
+- 🔐 **Secure Login** – Your data protected with JWT authentication
+- 📱 **Modern Interface** – Clean, responsive design that works everywhere
+- ⚡ **Lightning Fast** – Built on cutting-edge web technologies
+- 🗄️ **Saves Your History** – Track all sent applications in MongoDB
 
-| Layer | Technology |
-|--------|-------------|
-| Frontend | Next.js, React, TailwindCSS |
-| Backend | FastAPI, Python |
-| Database | MongoDB |
-| Auth | JWT |
-| Email | SMTP / Custom Provider |
+---
 
-<hr>
+## 🛠️ Built With
 
+| Component | Technology | Why We Chose It |
+|-----------|------------|-----------------|
+| **Frontend** | Next.js + React | Fast, SEO-friendly, great developer experience |
+| **Styling** | TailwindCSS | Rapid UI development with utility classes |
+| **Backend** | FastAPI | Blazing fast Python API framework |
+| **Database** | MongoDB | Flexible document storage for user data |
+| **Security** | JWT | Industry-standard token authentication |
+| **Email** | SMTP | Universal email protocol support |
 
-## ⚙️ Setup Instructions
+---
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/thevishwass/AI_Email_Sender.git
-   cd AI_Email_Sender
-   ```
+## 🐳 Running with Docker (Recommended)
 
-2. **Install backend dependencies**
-   ```bash
-    cd ../backend
-    pip install -r requirements.txt
-   ```
-   
-3. **Install frontend dependencies**
-   ```bash
-    cd frontend
-    npm install
-   ```
+> 💡 **Recommended:** Use Docker for development to avoid environment issues.  
+> Manual setup is provided below for learning and debugging purposes.
 
-4. **Configure environment variables**
-   ```bash
-    Create .env files for both frontend & backend
-    Add your email credentials, JWT secret, and other keys
-   ```
+**Why Docker?** Forget installing Node, Python, MongoDB separately. Docker packages everything into containers that work anywhere.
 
-5. **Run the app**
+### What You Need
+- **Docker Desktop** – [Download here](https://www.docker.com/products/docker-desktop/)
 
-**Backend**
-   ```bash
-   cd ../backend
-   uvicorn main:app --reload
-   ```
+That's it! Everything else is handled automatically.
 
-**Frontend**
-   ```bash
-    cd frontend
-    npm run dev
-   ```
-
-6. **Visit**
-   ```bash
-   http://localhost:3000 (Frontend)
-   
-   http://localhost:8000 (Backend)
-   
-   http://localhost:8000/docs
-   ```
-
-<hr>
-
-
-## 📁 Folder Structure
-
+### One-Command Setup
 ```bash
-AI_Email_Sender/
-│
-├── frontend/              # Next.js frontend
-│   ├── components/
-│   ├── pages/
-│   └── ...
-│
-├── backend/               # FastAPI backend
-│   ├── main.py
-│   ├── routes/
-│   ├── requirements.txt
-│   └── ...
-│
-├── .gitignore
-└── README.md
+# Clone the project
+git clone https://github.com/thevishwass/AI_EmailSender.git
+cd AI_EmailSender
 
+# Create backend environment file
+cd backend
+# Create a file named .env and add your email credentials:
 ```
-<hr>
 
+**Backend Environment** (`backend/.env`):
+```env
+MONGODB_URL=mongodb://mongo:27017
+JWT_SECRET=your_super_secret_key_here
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your.email@gmail.com
+EMAIL_PASSWORD=your_app_specific_password
+```
+```bash
+# Return to project root
+cd ..
 
-## 🧭 Roadmap
-- **Job-specific personalization**
-- **Resume & cover letter integration**
-- **Analytics dashboard**
-- **Multiple email templates**
+# Start everything at once
+docker compose up --build
+```
 
-<hr>
+**What just happened?**
+- ✅ Frontend started at `http://localhost:3000`
+- ✅ Backend started at `http://localhost:8000`
+- ✅ MongoDB started internally
+- ✅ All three services connected automatically
+- ✅ Frontend automatically configured to talk to backend via `docker-compose.yml`
 
+**💡 Note:** When using Docker, you don't need to create `frontend/.env.local` — the backend URL is automatically set in `docker-compose.yml`.
 
-## 👨‍💻 Author
+### Managing Your Docker Setup
+```bash
+# Stop everything
+docker compose down
 
-***Vishwas Singh***  
+# Restart after making code changes
+docker compose up --build
 
+# See what's happening (logs)
+docker compose logs -f
 
+# Check specific service logs
+docker compose logs frontend
+docker compose logs backend
+```
+
+---
+
+## 🏗️ How Docker Works Here
+
+### The Three Containers
+```
+┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│   Frontend      │─────▶│    Backend      │─────▶│    MongoDB      │
+│   (Next.js)     │      │   (FastAPI)     │      │   (Database)    │
+│   Port: 3000    │      │   Port: 8000    │      │   Port: 27017   │
+└─────────────────┘      └─────────────────┘      └─────────────────┘
+```
+
+**How They Talk:**
+- Your browser → Frontend container (port 3000)
+- Frontend → Backend using `http://backend:8000` (internal Docker network)
+- Backend → MongoDB using `mongodb://mongo:27017` (internal Docker network)
+
+**Important:** Containers use service names (`backend`, `mongo`) to communicate, NOT `localhost`!
+
+### What's Inside Each Container?
+
+**Frontend Container (`frontend/Dockerfile`)**
+```dockerfile
+# Based on: Official Node.js 20 image
+# Contains: Next.js app, React, TailwindCSS
+# Runs: npm run dev (development server)
+# Exposed: Port 3000
+```
+
+**Backend Container (`backend/Dockerfile`)**
+```dockerfile
+# Based on: Python 3.11 slim image
+# Contains: FastAPI, all Python dependencies
+# Runs: uvicorn main:app (API server)
+# Exposed: Port 8000
+```
+
+**MongoDB Container**
+```yaml
+# Based on: Official MongoDB image
+# Purpose: Stores user data and email history
+# No configuration needed - works out of the box!
+```
+
+---
+
+## 🏃 Running Locally (Manual Setup)
+
+### What You Need
+- **Node.js** (v18 or higher) – [Download here](https://nodejs.org/)
+- **Python** (v3.8 or higher) – [Download here](https://python.org/)
+- **MongoDB** – [Download here](https://mongodb.com/try/download/community) or use [MongoDB Atlas](https://mongodb.com/cloud/atlas) (free cloud option)
+
+### Step-by-Step Setup
+
+#### 1️⃣ Get the Code
+```bash
+git clone https://github.com/thevishwass/AI_EmailSender.git
+cd AI_EmailSender
+```
+
+#### 2️⃣ Set Up Backend (API Server)
+```bash
+# Navigate to backend folder
+cd backend
+
+# Install Python dependencies
+pip install -r requirements.txt
+```
+
+**Create Backend Environment File** (`backend/.env`):
+```env
+# Use localhost for local development
+MONGODB_URL=mongodb://localhost:27017
+JWT_SECRET=your_super_secret_key_here
+EMAIL_HOST=smtp.gmail.com
+EMAIL_PORT=587
+EMAIL_USER=your.email@gmail.com
+EMAIL_PASSWORD=your_app_specific_password
+```
+```bash
+# Start the backend server
+uvicorn main:app --reload
+```
+**Backend now running at:** `http://localhost:8000`
+
+#### 3️⃣ Set Up Frontend (User Interface)
+```bash
+# Open a new terminal, navigate to frontend
+cd frontend
+
+# Install Node dependencies
+npm install
+```
+
+**Create Frontend Environment File** (`frontend/.env.local`):
+```env
+# Use localhost for local development
+NEXT_PUBLIC_API_URL=http://localhost:8000
+```
+```bash
+# Start the frontend server
+npm run dev
+```
+**Frontend now running at:** `http://localhost:3000`
+
+#### 4️⃣ Open Your Browser
+Visit `http://localhost:3000` and start sending AI-powered emails! 🎉
+
+---
+
+## ⚙️ Configuration Summary
+
+### Docker Mode (Recommended)
+**Only need to configure:**
+- `backend/.env` with your email credentials
+- Frontend configuration is handled automatically by `docker-compose.yml`
+
+### Local Development Mode
+**Need to configure:**
+- `backend/.env` with `MONGODB_URL=mongodb://localhost:27017`
+- `frontend/.env.local` with `NEXT_PUBLIC_API_URL=http://localhost:8000`
+
+**💡 Pro Tip:** For Gmail, create an **App Password** (recommended). Google no longer supports "less secure app access". [Generate App Password here](https://myaccount.google.com/apppasswords).
+
+---
+
+## 📁 Project Structure (Simplified)
+```
+AI_EmailSender/
+│
+├── 📂 frontend/                  # Everything user sees
+│   ├── 📂 components/            # Reusable UI pieces (buttons, forms, etc.)
+│   ├── 📂 pages/                 # Different pages of the website
+│   ├── 📂 styles/                # CSS styling files
+│   ├── 📄 Dockerfile             # Instructions to build frontend container
+│   └── 📄 package.json           # Lists all JavaScript dependencies
+│
+├── 📂 backend/                   # The brain of the operation
+│   ├── 📂 routes/                # API endpoints (login, send email, etc.)
+│   ├── 📂 models/                # Database structure definitions
+│   ├── 📂 utils/                 # Helper functions (AI logic, email sender)
+│   ├── 📄 main.py                # Backend entry point
+│   ├── 📄 Dockerfile             # Instructions to build backend container
+│   └── 📄 requirements.txt       # Lists all Python dependencies
+│
+├── 📄 docker-compose.yml         # Orchestrates all three containers
+└── 📄 README.md                  # You are here! 👋
+```
+
+---
+
+## 🐛 Common Issues & Fixes
+
+### "Port 3000 already in use"
+**Problem:** Another app is using that port  
+**Solution:**
+```bash
+# Find what's using the port
+lsof -i :3000          # Mac/Linux
+netstat -ano | findstr :3000   # Windows
+
+# Kill it, or change the port in docker-compose.yml
+```
+
+### "Cannot connect to backend"
+**Problem:** Frontend can't reach the API  
+**Check:**
+- Is backend running? Visit `http://localhost:8000/docs`
+- **Using Docker?** Backend URL is set in `docker-compose.yml` automatically
+- **Using local setup?** Make sure `NEXT_PUBLIC_API_URL=http://localhost:8000` in `frontend/.env.local`
+
+### "Email not sending"
+**Problem:** SMTP configuration issue  
+**Check:**
+- Using Gmail? Create an **App Password** (Google removed "less secure app access")
+- Firewall blocking port 587?
+- Check credentials in `backend/.env`
+- Verify EMAIL_HOST and EMAIL_PORT are correct for your provider
+
+### "MongoDB connection failed"
+**Problem:** Can't connect to database  
+**Check:**
+- **Using Docker?** Make sure `MONGODB_URL=mongodb://mongo:27017` in `backend/.env`
+- **Using local setup?** Make sure `MONGODB_URL=mongodb://localhost:27017` in `backend/.env`
+- Is MongoDB service running locally?
+
+### "Docker container crashes immediately"
+**Problem:** Missing dependencies or wrong configuration  
+**Solution:**
+```bash
+# Nuclear option - rebuild everything fresh
+docker compose down -v
+docker compose up --build --force-recreate
+```
+
+---
+
+## 🎓 Learning Resources
+
+**New to these technologies?**
+
+- **Next.js:** [Official Tutorial](https://nextjs.org/learn) (interactive, beginner-friendly)
+- **FastAPI:** [First Steps](https://fastapi.tiangolo.com/tutorial/first-steps/) (quick 5-minute intro)
+- **Docker:** [Get Started Guide](https://docs.docker.com/get-started/) (hands-on basics)
+- **MongoDB:** [University Courses](https://university.mongodb.com/) (free online courses)
+
+---
+
+## 🚀 What's Next?
+
+### Coming Soon
+- 📝 **Resume Parser** – Extract info from PDF resumes automatically
+- 🎨 **Email Templates** – Choose from multiple professional styles
+- 📊 **Application Tracker** – Dashboard showing all your applications
+- 🤝 **Cover Letter Generator** – AI writes cover letters too
+- ⏰ **Scheduled Sending** – Queue emails to send later
+- 📈 **Analytics** – Track open rates and responses
+
+### Want to Contribute?
+We'd love your help! Here's how:
+1. **Fork** this repository
+2. **Create** a new branch: `git checkout -b cool-new-feature`
+3. **Make** your changes
+4. **Test** thoroughly
+5. **Submit** a Pull Request with a clear description
+
+---
+
+## 📜 License
+
+MIT License - feel free to use this for personal or commercial projects!
+
+---
+
+## 👨‍💻 Creator
+
+**Vishwas Singh**
+
+Passionate about making job hunting easier with AI. Questions? Feedback? Reach out!
+
+- 🐙 GitHub: [@thevishwass](https://github.com/thevishwass)
+- 💼 LinkedIn: [Connect with me](https://linkedin.com/in/vishwassingh15)
+- 📧 Email: thevishwass@gmail.com
+
+---
+
+## 💙 Support This Project
+
+If this tool saved you time and stress:
+- ⭐ **Star this repo** (helps others discover it)
+- 🐦 **Share on Twitter** (tag me!)
+- 🐛 **Report bugs** (helps make it better)
+- 💡 **Suggest features** (what would you add?)
+
+---
+
+## 🙏 Acknowledgments
+
+Built with coffee, determination, and these amazing open-source tools:
+- [Next.js](https://nextjs.org/) - The React Framework
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern Python Web Framework
+- [MongoDB](https://www.mongodb.com/) - NoSQL Database
+- [Docker](https://www.docker.com/) - Containerization Platform
+- [TailwindCSS](https://tailwindcss.com/) - Utility-First CSS
+
+---
+
+**Happy Job Hunting! May your inbox be full of interview requests!**
