@@ -2,7 +2,7 @@
 
 An **AI-powered job application assistant** that automatically generates and sends professional emails to potential employers. Just input the job details, and let AI handle the rest!
 
----
+
 
 ## 🎯 What Does This Do?
 
@@ -346,8 +346,8 @@ MIT License - feel free to use this for personal or commercial projects!
 Passionate about making job hunting easier with AI. Questions? Feedback? Reach out!
 
 - 🐙 GitHub: [@thevishwass](https://github.com/thevishwass)
-- 💼 LinkedIn: [Connect with me](https://linkedin.com/in/yourprofile)
-- 📧 Email: contact@vishwassingh.dev
+- 💼 LinkedIn: [Connect with me](https://linkedin.com/in/vishwassingh15)
+- 📧 Email: thevishwass@gmail.com
 
 ---
 
@@ -363,7 +363,7 @@ If this tool saved you time and stress:
 
 ## 🙏 Acknowledgments
 
-Built with coffee ☕, determination 💪, and these amazing open-source tools:
+Built with coffee, determination, and these amazing open-source tools:
 - [Next.js](https://nextjs.org/) - The React Framework
 - [FastAPI](https://fastapi.tiangolo.com/) - Modern Python Web Framework
 - [MongoDB](https://www.mongodb.com/) - NoSQL Database
@@ -372,4 +372,4 @@ Built with coffee ☕, determination 💪, and these amazing open-source tools:
 
 ---
 
-**⚡ Happy Job Hunting! May your inbox be full of interview requests! ⚡**
+**Happy Job Hunting! May your inbox be full of interview requests!**
