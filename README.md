@@ -7,7 +7,7 @@ An **AI-powered job application assistant** that automatically generates and sen
 ## 🎯 What Does This Do?
 
 Think of this as your personal email assistant for job hunting:
-1. **You provide:** Company name, job title, your details
+1. **You provide:** Company email, job title/description
 2. **AI creates:** Professional email with subject line and body
 3. **System sends:** Email directly to the recruiter
 4. **You benefit:** The system handles repetitive email writing, reducing manual effort
@@ -35,6 +35,7 @@ Think of this as your personal email assistant for job hunting:
 | **Database** | MongoDB | Flexible document storage for user data |
 | **Security** | JWT | Industry-standard token authentication |
 | **Email** | SMTP | Universal email protocol support |
+| **AI Engine** | Google Gemini | Advanced language model for email generation |
 
 ---
 
@@ -69,7 +70,19 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your.email@gmail.com
 EMAIL_PASSWORD=your_app_specific_password
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+> 🔑 **Getting Your Gemini API Key:**
+> 1. Visit **[Google AI for Developers - Gemini API](https://ai.google.dev/gemini-api/docs/api-key)**
+> 2. Click **"Get API Key"** in Google AI Studio
+> 3. Sign in with your Google account
+> 4. Create a new API key or use an existing one
+> 5. Copy the key and paste it as `GEMINI_API_KEY` in your `.env` file
+> 
+> **Note:** The Gemini API is **free** for testing and low-volume usage!  
+> **Important:** Keep your API key secret and never commit it to version control.
+
 ```bash
 # Return to project root
 cd ..
@@ -183,7 +196,12 @@ EMAIL_HOST=smtp.gmail.com
 EMAIL_PORT=587
 EMAIL_USER=your.email@gmail.com
 EMAIL_PASSWORD=your_app_specific_password
+GEMINI_API_KEY=your_gemini_api_key_here
 ```
+
+> 🔑 **Don't have a Gemini API Key yet?**  
+> Visit **[Google AI for Developers](https://ai.google.dev/gemini-api/docs/api-key)** to get your free API key in minutes!
+
 ```bash
 # Start the backend server
 uvicorn main:app --reload
@@ -219,15 +237,47 @@ Visit `http://localhost:3000` and start sending AI-powered emails! 🎉
 
 ### Docker Mode (Recommended)
 **Only need to configure:**
-- `backend/.env` with your email credentials
+- `backend/.env` with your email credentials and Gemini API key
 - Frontend configuration is handled automatically by `docker-compose.yml`
 
 ### Local Development Mode
 **Need to configure:**
-- `backend/.env` with `MONGODB_URL=mongodb://localhost:27017`
+- `backend/.env` with `MONGODB_URL=mongodb://localhost:27017` and Gemini API key
 - `frontend/.env.local` with `NEXT_PUBLIC_API_URL=http://localhost:8000`
 
-**💡 Pro Tip:** For Gmail, create an **App Password** (recommended). Google no longer supports "less secure app access". [Generate App Password here](https://myaccount.google.com/apppasswords).
+### 📧 Email Configuration Tips
+
+**💡 For Gmail Users:**
+- Create an **App Password** (recommended) - Google no longer supports "less secure app access"
+- [Generate App Password here](https://myaccount.google.com/apppasswords)
+- Enable 2-Step Verification first (required for App Passwords)
+
+**For Other Email Providers:**
+| Provider | SMTP Host | Port |
+|----------|-----------|------|
+| Outlook/Hotmail | smtp-mail.outlook.com | 587 |
+| Yahoo | smtp.mail.yahoo.com | 587 |
+| Custom Domain | Check your provider's documentation | Usually 587 or 465 |
+
+### 🤖 Gemini API Configuration
+
+**Getting Started:**
+1. Visit **[Google AI for Developers - API Keys](https://ai.google.dev/gemini-api/docs/api-key)**
+2. Click "Get API Key" in Google AI Studio
+3. Sign in with your Google account (free)
+4. Generate your API key
+5. Add to `backend/.env` as `GEMINI_API_KEY`
+
+**Usage Limits (Free Tier):**
+- 15 requests per minute
+- 1,500 requests per day
+- Perfect for personal job hunting!
+
+**Security Best Practices:**
+- ⚠️ Never commit `.env` files to Git
+- ⚠️ Don't share your API key publicly
+- ⚠️ Use environment variables in production
+- ✅ Add `.env` to your `.gitignore` file
 
 ---
 
@@ -251,6 +301,7 @@ AI_EmailSender/
 │   └── 📄 requirements.txt       # Lists all Python dependencies
 │
 ├── 📄 docker-compose.yml         # Orchestrates all three containers
+├── 📄 .gitignore                 # Tells Git to ignore .env files
 └── 📄 README.md                  # You are here! 👋
 ```
 
@@ -291,6 +342,14 @@ netstat -ano | findstr :3000   # Windows
 - **Using local setup?** Make sure `MONGODB_URL=mongodb://localhost:27017` in `backend/.env`
 - Is MongoDB service running locally?
 
+### "Gemini API Error" or "AI not generating emails"
+**Problem:** Gemini API key issue  
+**Check:**
+- Is `GEMINI_API_KEY` set in `backend/.env`?
+- Is the API key valid? Test it at [Google AI Studio](https://aistudio.google.com/)
+- Have you exceeded free tier limits? (15 requests/minute, 1,500/day)
+- Check backend logs: `docker compose logs backend` or terminal output
+
 ### "Docker container crashes immediately"
 **Problem:** Missing dependencies or wrong configuration  
 **Solution:**
@@ -310,6 +369,7 @@ docker compose up --build --force-recreate
 - **FastAPI:** [First Steps](https://fastapi.tiangolo.com/tutorial/first-steps/) (quick 5-minute intro)
 - **Docker:** [Get Started Guide](https://docs.docker.com/get-started/) (hands-on basics)
 - **MongoDB:** [University Courses](https://university.mongodb.com/) (free online courses)
+- **Gemini API:** [Documentation](https://ai.google.dev/gemini-api/docs) (comprehensive guide)
 
 ---
 
@@ -322,6 +382,7 @@ docker compose up --build --force-recreate
 - 🤝 **Cover Letter Generator** – AI writes cover letters too
 - ⏰ **Scheduled Sending** – Queue emails to send later
 - 📈 **Analytics** – Track open rates and responses
+- 🌐 **Multi-language Support** – Generate emails in different languages
 
 ### Want to Contribute?
 We'd love your help! Here's how:
@@ -369,7 +430,8 @@ Built with coffee, determination, and these amazing open-source tools:
 - [MongoDB](https://www.mongodb.com/) - NoSQL Database
 - [Docker](https://www.docker.com/) - Containerization Platform
 - [TailwindCSS](https://tailwindcss.com/) - Utility-First CSS
+- [Google Gemini](https://ai.google.dev/) - Advanced AI Language Model
 
 ---
 
-**Happy Job Hunting! May your inbox be full of interview requests!**
+**Happy Job Hunting! May your inbox be full of interview requests! 🎉📧✨**
